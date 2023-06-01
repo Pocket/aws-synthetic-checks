@@ -1,0 +1,25 @@
+{
+  "name": "aws-synthetic-checks",
+  "version": "1.0.0",
+  "main": "dist/main-local.js",
+  "types": "dist/main-local.ts",
+  "license": "MPL-2.0",
+  "private": true,
+  "scripts": {
+    "build": "cp -r node_modules/jmespath/ src/nodejs/node_modules/jmespath/ && cp -r node_modules/@aws-cdk src/nodejs/node_modules/@aws-cdk && rm -rf dist && tsc",
+    "build:local": "cp -r node_modules/jmespath/ src/nodejs/node_modules/jmespath/ && cp -r node_modules/@aws-cdk src/nodejs/node_modules/@aws-cdk && rm -rf dist && tsc && npm run zip",
+    "start": "node dist/main-local.js",
+    "zip": "rm -rf tmp-dist/synthetics-export && mkdir -p tmp-dist/synthetics-export/nodejs && cp -r dist/nodejs/node_modules/ tmp-dist/synthetics-export/nodejs/node_modules &&  cd tmp-dist/synthetics-export && zip aws-synthetic.zip -r nodejs",
+    "lint-check": "eslint --fix-dry-run \"src/**/*.ts\"",
+    "lint-fix": "eslint --fix \"src/**/*.ts\""
+  },
+  "dependencies": {
+    "@aws-cdk/aws-synthetics": "^1.202.0",
+    "jmespath": "0.16.0"
+  },
+  "devDependencies": {
+    "@pocket-tools/eslint-config": "2.0.0",
+    "@types/node": "^18.11.19",
+    "typescript": "5.0.4"
+  }
+}

@@ -1,0 +1,27 @@
+{
+  "compilerOptions": {
+    "target": "es2019",
+    "module": "commonjs",
+    "allowJs": true,
+    "lib": [
+      "es2019",
+      "es2020.bigint",
+      "es2020.string",
+      "es2020.symbol.wellknown"
+    ],
+    "outDir": "dist",
+    "rootDir": "src",
+    "removeComments": true,
+    "esModuleInterop": true,
+    "noEmitOnError": false,
+    "sourceMap": true,
+    "inlineSources": true,
+    "sourceRoot": "/"
+  },
+  "include": [
+    "**/*.ts",
+    "src/nodejs/node_modules/jmespath/*.js",
+    "src/nodejs/node_modules/synthetic/*.ts"
+  ],
+  "exclude": ["dist/", "node_modules/"]
+}
