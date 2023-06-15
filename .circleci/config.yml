@@ -166,21 +166,12 @@ jobs:
           name: upload zip file to S3 bucket
           command: |
             cd tmp-dist/synthetics-export
-            aws s3 cp "$CIRCLE_SHA1-aws-synthetic-<< parameters.env_lower_name >>.zip" s3://pocket-syntheticchecks-dev
+            aws s3 cp "$CIRCLE_SHA1-aws-synthetic-<< parameters.env_lower_name >>.zip" s3://pocket-syntheticchecks-<< parameters.env_lower_name >>
 
 workflows:
   all:
     jobs:
       - build
-      # Prod
-      - pocket/setup_deploy_params:
-          <<: *only_main
-          name: setup-deploy-params-prod
-          aws_access_key_id: Prod_AWS_ACCESS_KEY
-          aws_secret_access_key: Prod_AWS_SECRET_ACCESS_KEY
-          context: pocket
-          env: Prod
-          service_name: ${SERVICE_NAME}
       # Dev
       - pocket/setup_deploy_params:
           <<: *only_dev
@@ -199,15 +190,6 @@ workflows:
           codebuild_project_branch: dev
           env_lower_name: dev
           env_capital_name: Dev
-      # Prod
-      - run_code_build:
-          <<: *only_main
-          context: pocket
-          name: run_prod_code_build
-          codebuild_project_name: SyntheticChecks-Prod
-          codebuild_project_branch: main
-          env_lower_name: prod
-          env_capital_name: Prod
       # Dev
       - upload_zip_to_s3:
           <<: *only_dev
@@ -219,6 +201,24 @@ workflows:
           name: upload_zip_to_s3_dev
           env_lower_name: dev
           env_capital_name: Dev
+      # Prod
+      - pocket/setup_deploy_params:
+          <<: *only_main
+          name: setup-deploy-params-prod
+          aws_access_key_id: Prod_AWS_ACCESS_KEY
+          aws_secret_access_key: Prod_AWS_SECRET_ACCESS_KEY
+          context: pocket
+          env: Prod
+          service_name: ${SERVICE_NAME}
+      # Prod
+      - run_code_build:
+          <<: *only_main
+          context: pocket
+          name: run_prod_code_build
+          codebuild_project_name: SyntheticChecks-Prod
+          codebuild_project_branch: main
+          env_lower_name: prod
+          env_capital_name: Prod
       # Prod
       - upload_zip_to_s3:
           <<: *only_main
