@@ -166,6 +166,7 @@ jobs:
           name: upload zip file (1 for use, 1 for release tracking) to S3 bucket
           command: |
             cd tmp-dist/synthetics-export
+            cp "$CIRCLE_SHA1-aws-synthetic-<< parameters.env_lower_name >>.zip" "aws-synthetic-<< parameters.env_lower_name >>.zip"
             aws s3 cp "aws-synthetic-<< parameters.env_lower_name >>.zip" s3://pocket-syntheticchecks-<< parameters.env_lower_name >>
             aws s3 cp "$CIRCLE_SHA1-aws-synthetic-<< parameters.env_lower_name >>.zip" s3://pocket-syntheticchecks-<< parameters.env_lower_name >>
 
