@@ -163,9 +163,10 @@ jobs:
           aws-secret-access-key: << parameters.env_capital_name >>_AWS_SECRET_ACCESS_KEY
           aws-region: << parameters.env_capital_name >>_AWS_DEFAULT_REGION
       - run:
-          name: upload zip file to S3 bucket
+          name: upload zip file (1 for use, 1 for release tracking) to S3 bucket
           command: |
             cd tmp-dist/synthetics-export
+            aws s3 cp "aws-synthetic-<< parameters.env_lower_name >>.zip" s3://pocket-syntheticchecks-<< parameters.env_lower_name >>
             aws s3 cp "$CIRCLE_SHA1-aws-synthetic-<< parameters.env_lower_name >>.zip" s3://pocket-syntheticchecks-<< parameters.env_lower_name >>
 
 workflows:
