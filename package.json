@@ -18,7 +18,7 @@
     "jmespath": "0.16.0"
   },
   "devDependencies": {
-    "@pocket-tools/eslint-config": "2.0.0",
+    "@pocket-tools/eslint-config": "2.1.7",
     "@types/node": "^18.11.19",
     "typescript": "5.1.6"
   }
